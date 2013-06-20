@@ -121,27 +121,27 @@ void Configure(void)
 
         ifstream settings ("Settings.txt");
         getline(settings, input, '\n');
-            q = streamInt( input )
+            q = atoi( input );
         getline(settings, input, '\n');
-            w = streamInt( input)
+            w = atoi( input);
         getline(settings, input, '\n');
-            e = streamInt( input )
+            e = atoi( input );
         getline(settings, input, '\n');
-            r = streamInt( input )
+            r = atoi( input );
         getline(settings, input, '\n');
-            t = streamInt( input )
+            t = atoi( input );
         getline(settings, input, '\n');
-            y = streamInt( input )
+            y = atoi( input );
         getline(settings, input, '\n');
-            u = streamInt( input )
+            u = atoi( input );
         getline(settings, input, '\n');
-            o = streamInt( input )
+            o = atoi( input );
         getline(settings, input, '\n');
-            p = streamInt( input )
+            p = atoi( input );
         getline(settings, input, '\n');
-            a = streamInt( input )
+            a = atoi( input );
         getline(settings, input, '\n');
-            s = streamInt( input )
+            s = atoi( input );
 
                 ViReal64 sampInterval = q, delayTime = w;
                 ViInt32 nbrSamples = e, nbrSegments = r;
@@ -291,12 +291,6 @@ void Close(void)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-int streamInt( string s )
-{
-    stringstream ss( s );
-    ss >> convertedInt;
-    return convertedInt;
-}
 
 int main (int argc, char *argv[])
 {
