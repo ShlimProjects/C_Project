@@ -7,6 +7,7 @@
 //  Altered for usage in a DAQ setup by Joseph T Wolf CWRU
 //
 //////////////////////////////////////////////////////////////////////////////////////////
+#include <sstream>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -109,17 +110,54 @@ void FindDevices(void)
 //////////////////////////////////////////////////////////////////////////////////////////
 void Configure(void)
 {
+
+    char input[50];
+    
     //Loop to account for multiple instruments
     ViInt32 i;
+    int q,w,e,r,t,y,u,o,p,a,s;
     for (i = 0;i < NumInstruments;i++){
 	// Configuration of the first digitizer found
 
-	ViReal64 sampInterval = 1.e-8, delayTime = -0.0001; //Added one zero to test
-	ViInt32 nbrSamples = 1000, nbrSegments = 10;
-	ViInt32 coupling = 3, bandwidth = 0;   
-	ViReal64 fullScale = 2.0, offset = 0.0;
-	ViInt32 trigCoupling = 0, trigSlope = 0;
-	ViReal64 trigLevel = 20.0; // In % of vertical full scale when using internal trigger
+        ifstream settings ("Settings.txt");
+        getline(settings, input, '\n');
+            q = streamInt( input )
+        getline(settings, input, '\n');
+            w = streamInt( input)
+        getline(settings, input, '\n');
+            e = streamInt( input )
+        getline(settings, input, '\n');
+            r = streamInt( input )
+        getline(settings, input, '\n');
+            t = streamInt( input )
+        getline(settings, input, '\n');
+            y = streamInt( input )
+        getline(settings, input, '\n');
+            u = streamInt( input )
+        getline(settings, input, '\n');
+            o = streamInt( input )
+        getline(settings, input, '\n');
+            p = streamInt( input )
+        getline(settings, input, '\n');
+            a = streamInt( input )
+        getline(settings, input, '\n');
+            s = streamInt( input )
+
+                ViReal64 sampInterval = q, delayTime = w;
+                ViInt32 nbrSamples = e, nbrSegments = r;
+                ViInt32 coupling = t, bandwidth = y;
+                ViReal64 fullScale = u, offset = o;
+                ViInt32 trigCoupling = p, trigSlope = a;
+                ViReal64 trigLevel = s;
+
+
+//	ViReal64 sampInterval = 1.e-8, delayTime = -0.0001; //Added one zero to test
+//	ViInt32 nbrSamples = 1000, nbrSegments = 10;
+//	ViInt32 coupling = 3, bandwidth = 0;   
+//	ViReal64 fullScale = 2.0, offset = 0.0;
+//	ViInt32 trigCoupling = 0, trigSlope = 0;
+//	ViReal64 trigLevel = 20.0; // In % of vertical full scale when using internal trigger
+
 	// Configure timebase
 	status = AcqrsD1_configHorizontal(InstrumentID[i], sampInterval, delayTime);
 	assert((status==VI_SUCCESS) || (status>VI_SUCCESS));
@@ -148,6 +186,8 @@ void Acquire(void)
 {
 	// Acquisition of a waveform on the first digitizer
     ViInt8 i;
+    ViInt32 Timeout = 8000;
+
     for (i=0;i < NumInstruments;i++){
 	// Start the acquisition
 	status = AcqrsD1_acquire(InstrumentID[i]); 
@@ -156,7 +196,7 @@ void Acquire(void)
     for (i=0;i < NumInstruments;i++){
 	// Wait for the interrupt to signal the end of the acquisition
 	// with a timeout value of 2 seconds (originally 2000)
-	status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], 8000);
+	status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], Timeout);
     }
     for (i=0;i < NumInstruments;i++){
 	if (status != VI_SUCCESS)
@@ -251,6 +291,13 @@ void Close(void)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
+int streamInt( string s )
+{
+    stringstream ss( s );
+    ss >> convertedInt;
+    return convertedInt;
+}
+
 int main (int argc, char *argv[])
 {
     p = 1;
