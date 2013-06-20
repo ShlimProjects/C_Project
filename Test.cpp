@@ -7,6 +7,7 @@
 //  Altered for usage in a DAQ setup by Joseph T Wolf CWRU
 //
 //////////////////////////////////////////////////////////////////////////////////////////
+#include <stdlib.h>
 #include <sstream>
 #include <string>
 #include <fstream>
@@ -111,7 +112,7 @@ void FindDevices(void)
 void Configure(void)
 {
 
-    char input[50];
+    char* input;
     
     //Loop to account for multiple instruments
     ViInt32 i;
@@ -120,27 +121,27 @@ void Configure(void)
 	// Configuration of the first digitizer found
 
         ifstream settings ("Settings.txt");
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             q = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             w = atoi( input);
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             e = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             r = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             t = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             y = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             u = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             o = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             p = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             a = atoi( input );
-        getline(settings, input, '\n');
+        std::getline(settings, &input);
             s = atoi( input );
 
                 ViReal64 sampInterval = q, delayTime = w;
