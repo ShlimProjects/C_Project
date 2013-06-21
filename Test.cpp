@@ -36,14 +36,14 @@ ViStatus status; 		// Functions return a status code that needs to be checked
 
 
 	//Settings file variables
-		    int v,w,e,r,t,y,u,o,b,a,s,d;
-                ViReal64 sampInterval = v, delayTime = w;
-                ViInt32 nbrSamples = e, nbrSegments = r;
-                ViInt32 coupling = t, bandwidth = y;
-                ViReal64 fullScale = u, offset = o;
-                ViInt32 trigCoupling = b, trigSlope = a;
-                ViReal64 trigLevel = s;
-    		    ViInt32 Timeout = d;
+		int v,w,e,r,t,y,u,o,b,a,s,d;
+                	ViReal64 sampInterval, delayTime;
+                	ViInt32 nbrSamples, nbrSegments;
+                	ViInt32 coupling, bandwidth;
+                	ViReal64 fullScale, offset;
+                	ViInt32 trigCoupling, trigSlope;
+                	ViReal64 trigLevel;
+    			ViInt32 Timeout; 
 
 ViInt32 tbNextSegmentPad;	// Additional array space (in samples) per segment needed for the read data array
 
@@ -156,6 +156,12 @@ void LoadSettings(void)
 //////////////////////////////////////////////////////////////////////////////////////////
 void Configure(void)
 {    
+	        sampInterval = v, delayTime = w;
+                nbrSamples = e, nbrSegments = r;
+                coupling = t, bandwidth = y;
+                fullScale = u, offset = o;
+                trigCoupling = b, trigSlope = a;
+                trigLevel = s;
     //Loop to account for multiple instruments
     ViInt32 i;
     for (i = 0;i < NumInstruments;i++){
@@ -193,6 +199,7 @@ void Configure(void)
 //////////////////////////////////////////////////////////////////////////////////////////
 void Acquire(void)
 {
+	Timeout = d;
 	// Acquisition of a waveform on the first digitizer
     ViInt8 i;
 
