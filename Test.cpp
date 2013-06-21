@@ -112,7 +112,7 @@ void FindDevices(void)
 void Configure(void)
 {
 
-    char* input;
+    string input;
     
     //Loop to account for multiple instruments
     ViInt32 i;
@@ -143,8 +143,10 @@ void Configure(void)
             a = atoi( input.c_str() );
         std::getline(settings, input);
             s = atoi( input.c_str() );
-
-                ViReal64 sampInterval = q, delayTime = w;
+           
+            settings.close();
+             
+            ViReal64 sampInterval = q, delayTime = w;
                 ViInt32 nbrSamples = e, nbrSegments = r;
                 ViInt32 coupling = t, bandwidth = y;
                 ViReal64 fullScale = u, offset = o;
