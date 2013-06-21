@@ -36,12 +36,12 @@ ViStatus status; 		// Functions return a status code that needs to be checked
 
 
 		//Settings file variables
-		int q,w,e,r,t,y,u,o,p,a,s,d;
-            ViReal64 sampInterval = q, delayTime = w;
+		int v,w,e,r,t,y,u,o,b,a,s,d;
+            ViReal64 sampInterval = v, delayTime = w;
                 ViInt32 nbrSamples = e, nbrSegments = r;
                 ViInt32 coupling = t, bandwidth = y;
                 ViReal64 fullScale = u, offset = o;
-                ViInt32 trigCoupling = p, trigSlope = a;
+                ViInt32 trigCoupling = b, trigSlope = a;
                 ViReal64 trigLevel = s;
     		ViInt32 Timeout = d;
 
@@ -127,7 +127,7 @@ void LoadSettings(void)
 	for (i = 0;i < NumInstruments;i++){
         ifstream settings ("Settings.txt");
         std::getline(settings, input);
-            q = atoi( input.c_str() );
+            v = atoi( input.c_str() );
         std::getline(settings, input);
             w = atoi( input.c_str());
         std::getline(settings, input);
@@ -143,7 +143,7 @@ void LoadSettings(void)
         std::getline(settings, input);
             o = atoi( input.c_str() );
         std::getline(settings, input);
-            p = atoi( input.c_str() );
+            b = atoi( input.c_str() );
         std::getline(settings, input);
             a = atoi( input.c_str() );
         std::getline(settings, input);
@@ -313,7 +313,7 @@ int main (int argc, char *argv[])
 
 	cout << "I have found " << NumInstruments << " Agilent Acqiris Digitizer(s) on your PC" << endl;
 	LoadSettings(); //Load Settings for the digitizers
-	cout << "I have configured settings for both digitizers"
+	cout << "I have configured settings for both digitizers" <<endl;
 	Configure();	// Configuration of the first digitizer
     cout << "Please enter the amount of time you wish to record(in minutes): ";
     cin >> t;
