@@ -34,6 +34,17 @@ ViChar l [20];
 ViChar q [50];
 ViStatus status; 		// Functions return a status code that needs to be checked
 
+
+		//Settings file variables
+		int q,w,e,r,t,y,u,o,p,a,s,d;
+            ViReal64 sampInterval = q, delayTime = w;
+                ViInt32 nbrSamples = e, nbrSegments = r;
+                ViInt32 coupling = t, bandwidth = y;
+                ViReal64 fullScale = u, offset = o;
+                ViInt32 trigCoupling = p, trigSlope = a;
+                ViReal64 trigLevel = s;
+    		ViInt32 Timeout = d;
+
 ViInt32 tbNextSegmentPad;	// Additional array space (in samples) per segment needed for the read data array
 
 using namespace std;
@@ -107,19 +118,13 @@ void FindDevices(void)
 		}
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////
-void Configure(void)
+void LoadSettings(void)
 {
-
-    string input;
-    
-    //Loop to account for multiple instruments
-    ViInt32 i;
-    int q,w,e,r,t,y,u,o,p,a,s;
-    for (i = 0;i < NumInstruments;i++){
-	// Configuration of the first digitizer found
-
+	string input;
+	ViInt32 i;
+	
+	for (i = 0;i < NumInstruments;i++){
         ifstream settings ("Settings.txt");
         std::getline(settings, input);
             q = atoi( input.c_str() );
@@ -143,17 +148,18 @@ void Configure(void)
             a = atoi( input.c_str() );
         std::getline(settings, input);
             s = atoi( input.c_str() );
-           
+        std::getline(settings, input);
+            d = atoi( input.c_str() );
             settings.close();
-             
-            ViReal64 sampInterval = q, delayTime = w;
-                ViInt32 nbrSamples = e, nbrSegments = r;
-                ViInt32 coupling = t, bandwidth = y;
-                ViReal64 fullScale = u, offset = o;
-                ViInt32 trigCoupling = p, trigSlope = a;
-                ViReal64 trigLevel = s;
-
-
+}
+}
+//////////////////////////////////////////////////////////////////////////////////////////
+void Configure(void)
+{    
+    //Loop to account for multiple instruments
+    ViInt32 i;
+    for (i = 0;i < NumInstruments;i++){
+	// Configuration of the first digitizer found
 //	ViReal64 sampInterval = 1.e-8, delayTime = -0.0001; //Added one zero to test
 //	ViInt32 nbrSamples = 1000, nbrSegments = 10;
 //	ViInt32 coupling = 3, bandwidth = 0;   
@@ -189,7 +195,6 @@ void Acquire(void)
 {
 	// Acquisition of a waveform on the first digitizer
     ViInt8 i;
-    ViInt32 Timeout = 8000;
 
     for (i=0;i < NumInstruments;i++){
 	// Start the acquisition
@@ -307,7 +312,8 @@ int main (int argc, char *argv[])
 	FindDevices(); // Initialization of the instruments
 
 	cout << "I have found " << NumInstruments << " Agilent Acqiris Digitizer(s) on your PC" << endl;
-
+	LoadSettings(); //Load Settings for the digitizers
+	cout << "I have configured settings for both digitizers"
 	Configure();	// Configuration of the first digitizer
     cout << "Please enter the amount of time you wish to record(in minutes): ";
     cin >> t;
