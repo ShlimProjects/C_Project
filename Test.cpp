@@ -261,7 +261,7 @@ void Readout(void)
     int aInt = z;
     char str[80];
     char str2[80];
-    sprintf(str, "Acq-%s-Inst%d-%d-%s.txt",l,aInt,p,q);
+    sprintf(str, "Acq-%s-Inst%d-%d-%s.info",l,aInt,p,q);
     sprintf(str2, "Acq-%s-Inst%d-%d-%s.dat",l,aInt,p,q);
 
 	// Write the waveform into a file
