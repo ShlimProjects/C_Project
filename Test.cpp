@@ -35,15 +35,15 @@ ViChar q [50];
 ViStatus status; 		// Functions return a status code that needs to be checked
 
 
-		//Settings file variables
-		int v,w,e,r,t,y,u,o,b,a,s,d;
-            ViReal64 sampInterval = v, delayTime = w;
+	//Settings file variables
+		    int v,w,e,r,t,y,u,o,b,a,s,d;
+                ViReal64 sampInterval = v, delayTime = w;
                 ViInt32 nbrSamples = e, nbrSegments = r;
                 ViInt32 coupling = t, bandwidth = y;
                 ViReal64 fullScale = u, offset = o;
                 ViInt32 trigCoupling = b, trigSlope = a;
                 ViReal64 trigLevel = s;
-    		ViInt32 Timeout = d;
+    		    ViInt32 Timeout = d;
 
 ViInt32 tbNextSegmentPad;	// Additional array space (in samples) per segment needed for the read data array
 
