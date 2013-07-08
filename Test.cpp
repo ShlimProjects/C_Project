@@ -36,7 +36,7 @@ ViStatus status; 		// Functions return a status code that needs to be checked
 
 
 	//Settings file variables
-		int v,w,e,r,t,y,u,o,b,a,s,d;
+		int v,w,e,r,t,y,u,o,b,a,s,d,f;
                 	ViReal64 sampInterval, delayTime;
                 	ViInt32 nbrSamples, nbrSegments;
                 	ViInt32 coupling, bandwidth;
@@ -150,6 +150,10 @@ void LoadSettings(void)
             s = atoi( input.c_str() );
         std::getline(settings, input);
             d = atoi( input.c_str() );
+        std::getline(settings, input);
+            f = atoi( input.c_str() );
+        settings.getline(l, 14, '\n');
+            cout << l << endl;
             settings.close();
 }
 }
@@ -310,7 +314,6 @@ void Close(void)
 int main (int argc, char *argv[])
 {
     p = 1;
-    ViInt32 t;
     ViInt32 e;
 	cout << endl << "Agilent Acqiris Digitizer - Demo"
 		 << endl << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
@@ -322,13 +325,9 @@ int main (int argc, char *argv[])
 	LoadSettings(); //Load Settings for the digitizers
 	cout << "I have configured settings for both digitizers" <<endl;
 	Configure();	// Configuration of the first digitizer
-    cout << "Please enter the amount of time you wish to record(in minutes): ";
-    cin >> t;
-    if (t != 0){
-   // e = (t * 600);
-        e = t;
-    cout << "Please enter the name of the dataset: ";
-    cin >> l;
+    if (f != 0){
+   // e = (f * 600);
+        e = f;
     while (p <= e) {
 	Acquire();		// Acquisition of a waveform
 	Readout();		// Readout of the waveform
