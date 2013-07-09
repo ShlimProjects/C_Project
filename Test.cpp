@@ -295,7 +295,7 @@ void Readout(void)
 			outFile2 << int(adcArray[j*readPar.segmentOffset+i]) << endl;
 	}
     outFile2.close();
-	status = AcqrsD1_freeBank(InstrumentID[z],0);
+	Acqrs_resetMemory(InstrumentID[z]);
     delete [] segDesc;
     delete [] adcArray;
 }
