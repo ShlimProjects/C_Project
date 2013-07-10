@@ -124,7 +124,8 @@ void LoadSettings(void)
 	string input;
 	ViInt32 i;
 	
-	for (i = 0;i < NumInstruments;i++){
+//	for (i = 0;i < NumInstruments;i++){
+    i = 0;
         ifstream settings ("Settings.txt");
         std::getline(settings, input);
             v = atoi( input.c_str() );
@@ -155,7 +156,7 @@ void LoadSettings(void)
         settings.getline(l, 14, '\n');
             cout << l << endl;
             settings.close();
-}
+//}
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 void Configure(void)
@@ -168,7 +169,8 @@ void Configure(void)
                 trigLevel = s;
     //Loop to account for multiple instruments
     ViInt32 i;
-    for (i = 0;i < NumInstruments;i++){
+  //  for (i = 0;i < NumInstruments;i++){
+    i = 0;
 	// Configuration of the first digitizer found
 //	ViReal64 sampInterval = 1.e-8, delayTime = -0.0001; //Added one zero to test
 //	ViInt32 nbrSamples = 1000, nbrSegments = 10;
@@ -198,7 +200,7 @@ void Configure(void)
 	// Reading of the TbNextSegmentPad value, necessary for multi-segment readout
 	status = Acqrs_getInstrumentInfo(InstrumentID[i], "TbNextSegmentPad", &tbNextSegmentPad);
 	assert(status==VI_SUCCESS); 
-}
+//}
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 void Acquire(void)
@@ -207,17 +209,18 @@ void Acquire(void)
 	// Acquisition of a waveform on the first digitizer
     ViInt8 i;
 
-    for (i=0;i < NumInstruments;i++){
+  //  for (i=0;i < NumInstruments;i++){
+    i = 0;
 	// Start the acquisition
 	status = AcqrsD1_acquire(InstrumentID[i]); 
 	assert(status==VI_SUCCESS);
-    }
-    for (i=0;i < NumInstruments;i++){
+//    }
+//  for (i=0;i < NumInstruments;i++){
 	// Wait for the interrupt to signal the end of the acquisition
 	// with a timeout value of 2 seconds (originally 2000)
 	status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], Timeout);
-    }
-    for (i=0;i < NumInstruments;i++){
+//    }
+//  for (i=0;i < NumInstruments;i++){
 	if (status != VI_SUCCESS)
 	{
 		// Acquisition did not complete successfully
@@ -225,14 +228,14 @@ void Acquire(void)
 		cout << endl << "Acquisition timeout!" << endl;
 		cout << endl << "The acquisition has been stopped - data invalid!" << endl;
 	}
-}
+//}
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 void Readout(void)
 {
     ViInt32 z,i;
-    for (z = 0; z < NumInstruments;z++){
-
+//for (z = 0; z < NumInstruments;z++){
+    z = 0;
     // Readout of the acquired data on the first digitizer
 	ViInt32 channel = 1; // channel to be read
     ViInt32 nbrSamples, nbrSegments;
@@ -298,7 +301,7 @@ void Readout(void)
 	Acqrs_resetMemory(InstrumentID[z]);
     delete [] segDesc;
     delete [] adcArray;
-}
+//}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
