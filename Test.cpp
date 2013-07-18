@@ -36,7 +36,9 @@ ViStatus status; 		// Functions return a status code that needs to be checked
 
 
 	//Settings file variables
-		int v,w,e,r,t,y,u,o,b,a,s,d,f;
+		            int e,r,t,y,b,a,d,f;
+                    ViReal64 v, w, u, o, s; // v=sampling interval - w= delaytime - u = fullscale - o = offset - s = trigger level
+
                 	ViReal64 sampInterval, delayTime;
                 	ViInt32 nbrSamples, nbrSegments;
                 	ViInt32 coupling, bandwidth;
@@ -82,7 +84,7 @@ void FindDevices(void)
 		// Find all digitizers connected to the PC
 		
 		// no options are needed in this case
-		ViChar options[32] = ""; // no initialization options
+		ViChar options[32] = "DMA=0"; // no initialization options
 
 		// The following call will find the number of digitizers on the computer,
 		// regardless of their connection(s) to ASBus.
@@ -128,9 +130,9 @@ void LoadSettings(void)
     i = 0;
         ifstream settings ("Settings.txt");
         std::getline(settings, input);
-            v = atoi( input.c_str() );
+            v = atof( input.c_str() );
         std::getline(settings, input);
-            w = atoi( input.c_str());
+            w = atof( input.c_str());
         std::getline(settings, input);
             e = atoi( input.c_str() );
         std::getline(settings, input);
@@ -140,15 +142,15 @@ void LoadSettings(void)
         std::getline(settings, input);
             y = atoi( input.c_str() );
         std::getline(settings, input);
-            u = atoi( input.c_str() );
+            u = atof( input.c_str() );
         std::getline(settings, input);
-            o = atoi( input.c_str() );
+            o = atof( input.c_str() );
         std::getline(settings, input);
             b = atoi( input.c_str() );
         std::getline(settings, input);
             a = atoi( input.c_str() );
         std::getline(settings, input);
-            s = atoi( input.c_str() );
+            s = atof( input.c_str() );
         std::getline(settings, input);
             d = atoi( input.c_str() );
         std::getline(settings, input);
@@ -156,6 +158,12 @@ void LoadSettings(void)
         settings.getline(l, 14, '\n');
             cout << l << endl;
             settings.close();
+
+         /*   v= 2e-6;
+                w=-0.001;
+                u=0.5;
+                o=0.0;
+                s =-6; */
 //}
 }
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +190,9 @@ void Configure(void)
 	// Configure timebase
 	status = AcqrsD1_configHorizontal(InstrumentID[i], sampInterval, delayTime);
 	assert((status==VI_SUCCESS) || (status>VI_SUCCESS));
+    status = AcqrsD1_getHorizontal(InstrumentID[i], &sampInterval, &delayTime);
+    cout <<  "sampInterval: " << sampInterval << endl;
+    assert((status==VI_SUCCESS) || (status>VI_SUCCESS));
 	status = AcqrsD1_configMemory(InstrumentID[i], nbrSamples, nbrSegments);
 	assert((status==VI_SUCCESS) || (status>VI_SUCCESS));
 	
@@ -219,6 +230,18 @@ void Acquire(void)
 	// Wait for the interrupt to signal the end of the acquisition
 	// with a timeout value of 2 seconds (originally 2000)
 	status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], Timeout);
+/*    ViBoolean done = 0;
+
+    long timeoutCounter = 100;
+
+    while ((!done) && (--timeoutCounter > 0))
+    {
+        AcqrsD1_acqDone(InstrumentID[i], &done); // poll for status
+
+        Sleep(1);
+    }
+
+    if (timeoutCounter <= 0) // timeout   */
 //    }
 //  for (i=0;i < NumInstruments;i++){
 	if (status != VI_SUCCESS)
