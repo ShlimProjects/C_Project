@@ -230,6 +230,7 @@ void Acquire(void)
 	// Wait for the interrupt to signal the end of the acquisition
 	// with a timeout value of 2 seconds (originally 2000)
 	status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], Timeout);
+    status = AcqrsD1_waitForEndOfAcquisition(InstrumentID[i], Timeout);
 /*    ViBoolean done = 0;
 
     long timeoutCounter = 100;
@@ -314,11 +315,12 @@ void Readout(void)
 	outFile << "# Segments acquired: " << dataDesc.returnedSegments << endl;
     outFile << "# Time per trigger set: " << 1.e-8 * nbrSamples * nbrSegments << endl;
     outFile.close();
-    ofstream outFile2(str2);
+    ofstream outFile2(str2, ios::binary);
 	ViInt32 j;
 	for (j = 0; j < dataDesc.returnedSegments; j++) {
 		for (i = 0 ; i < dataDesc.returnedSamplesPerSeg; i++)
 			outFile2 << int(adcArray[j*readPar.segmentOffset+i]) << endl;
+    //        outFile2.write(reinterpret_cast <const char*> (&(adcArray[j*readPar.segmentOffset+i])), sizeof(adcArray[j*readPar.segmentOffset+i])); 
 	}
     outFile2.close();
 	Acqrs_resetMemory(InstrumentID[z]);
