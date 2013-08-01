@@ -34,6 +34,10 @@ ViChar l [20];
 ViChar q [50];
 ViStatus status; 		// Functions return a status code that needs to be checked
 
+uint32 endian; // little endian 0x01020304
+uint32 SetStrLength; //XML file of settings, length = 0
+uint32 Date; //Time of Run
+
 
 	//Settings file variables
 		            int e,r,t,y,b,a,d,f;
@@ -320,6 +324,7 @@ void Readout(void)
 	for (j = 0; j < dataDesc.returnedSegments; j++) {
 		for (i = 0 ; i < dataDesc.returnedSamplesPerSeg; i++)
 			outFile2 << int(adcArray[j*readPar.segmentOffset+i]) << endl;
+    //        outFile2.write(  
     //        outFile2.write(reinterpret_cast <const char*> (&(adcArray[j*readPar.segmentOffset+i])), sizeof(adcArray[j*readPar.segmentOffset+i])); 
 	}
     outFile2.close();
@@ -352,7 +357,7 @@ int main (int argc, char *argv[])
 	cout << "I have found " << NumInstruments << " Agilent Acqiris Digitizer(s) on your PC" << endl;
 	LoadSettings(); //Load Settings for the digitizers
 	cout << "I have configured settings for both digitizers" <<endl;
-	Configure();	// Configuration of the first digitizer
+	Configure();	// Configuration of the digitizers
     if (f != 0){
    // e = (f * 600);
         e = f;
