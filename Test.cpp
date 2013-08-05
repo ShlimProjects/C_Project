@@ -34,8 +34,8 @@ ViChar l [20];
 ViChar q [50];
 ViStatus status; 		// Functions return a status code that needs to be checked
 
-uint32 endian; // little endian 0x01020304
-uint32 SetStrLength; //XML file of settings, length = 0
+uint32 endian = 0x01020304; // little endian 0x01020304
+uint32 SetStrLength = 0; //XML file of settings, length = 0
 uint32 Date; //Time of Run
 
 
@@ -302,7 +302,14 @@ void Readout(void)
     time_t now = time(0);
     struct tm tstruct;
     tstruct = *localtime(&now);
-    strftime(q,sizeof(q), "%Y-%m-%d.%X", &tstruct);
+    strftime(q,sizeof(q), "%Y%m%d.%X", &tstruct);
+    strftime(D,sizeof(D), "%Y%m%d", &tstruct);
+    strftime(md,sizeof(md), "%m%d", &tstruct);
+    int year = ((str2num(D) / 100000000) % 2000);
+    Date = year * 1000000 + str2num(md);
+    
+    
+
 
     //Enables multiple intruments to record data files
     int aInt = z;
@@ -324,8 +331,10 @@ void Readout(void)
 	for (j = 0; j < dataDesc.returnedSegments; j++) {
 		for (i = 0 ; i < dataDesc.returnedSamplesPerSeg; i++)
 			outFile2 << int(adcArray[j*readPar.segmentOffset+i]) << endl;
-    //        outFile2.write(  
-    //        outFile2.write(reinterpret_cast <const char*> (&(adcArray[j*readPar.segmentOffset+i])), sizeof(adcArray[j*readPar.segmentOffset+i])); 
+    /*        outFile2.write(endian)
+              outFile2.write(SetStrLength)
+              outFile2.write(Date)
+              outFile2.write(reinterpret_cast <const char*> (&(adcArray[j*readPar.segmentOffset+i])), sizeof(adcArray[j*readPar.segmentOffset+i]));*/ 
 	}
     outFile2.close();
 	Acqrs_resetMemory(InstrumentID[z]);
